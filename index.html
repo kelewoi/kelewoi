@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KELEWOI | Advokátska kancelária</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #b8922a;
+    --gold-light: #d4aa4a;
+    --rust: #8b3a2a;
+    --sage: #4a5e4a;
+    --muted: #6b6358;
+    --rule: #c8bfaa;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ─── MASTHEAD ─── */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 0;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead-top {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+  }
+
+  .masthead-left {
+    width: 58%;
+    padding: 80px 60px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid rgba(245,240,232,0.15);
+    position: relative;
+  }
+
+  .masthead-right {
+    width: 42%;
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 30px,
+      rgba(184,146,42,0.04) 30px,
+      rgba(184,146,42,0.04) 31px
+    );
+  }
+
+  .firm-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 60px;
+  }
+
+  .firm-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 9vw, 120px);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -3px;
+    color: var(--paper);
+    margin-bottom: 30px;
+  }
+
+  .firm-name em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .firm-tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.6;
+    max-width: 360px;
+    border-left: 2px solid var(--gold);
+    padding-left: 20px;
+  }
+
+  .masthead-badges {
+    display: flex;
+    gap: 12px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(245,240,232,0.25);
+    padding: 6px 14px;
+    color: rgba(245,240,232,0.5);
+  }
+
+  .hero-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .hero-stat {
+    background: rgba(245,240,232,0.04);
+    padding: 40px 30px;
+    border: 1px solid rgba(245,240,232,0.08);
+    transition: background 0.3s;
+  }
+
+  .hero-stat:hover {
+    background: rgba(184,146,42,0.08);
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    display: block;
+    margin-top: 8px;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 40px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.3);
+  }
+
+  .scroll-line {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    animation: pulse-line 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-line {
+    0%, 100% { opacity: 0.4; transform: scaleX(1); }
+    50% { opacity: 1; transform: scaleX(1.3); transform-origin: left; }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--ink);
+    border-bottom: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--paper);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    text-decoration: none;
+    padding: 18px 20px;
+    display: block;
+    border-right: 1px solid rgba(245,240,232,0.07);
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--gold);
+    background: rgba(184,146,42,0.08);
+  }
+
+  /* ─── SECTION LABELS ─── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 50px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* ─── O NÁS ─── */
+  .about-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 70vh;
+  }
+
+  .about-text-col {
+    padding: 100px 80px;
+    background: var(--paper);
+    border-right: 1px solid var(--rule);
+  }
+
+  .about-accent-col {
+    padding: 100px 60px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-accent-col::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 400px;
+    color: var(--rule);
+    position: absolute;
+    top: -60px;
+    left: -20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 30px;
+    letter-spacing: -1px;
+  }
+
+  .about-body p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .about-body p strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.6;
+    color: var(--ink);
+    position: relative;
+    z-index: 1;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .about-quote cite {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-style: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 20px;
+  }
+
+  .about-values {
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .value-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .value-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    width: 28px;
+    flex-shrink: 0;
+    padding-top: 3px;
+  }
+
+  .value-text strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .value-text span {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── SERVICES ─── */
+  .services-section {
+    padding: 100px 80px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .services-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-bottom: 80px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(245,240,232,0.12);
+  }
+
+  .services-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .services-heading em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .services-desc {
+    font-size: 16px;
+    line-height: 1.85;
+    color: rgba(245,240,232,0.6);
+    align-self: end;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: rgba(245,240,232,0.03);
+    border: 1px solid rgba(245,240,232,0.07);
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: background 0.4s;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .service-card:hover { background: rgba(245,240,232,0.06); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 30px;
+    display: block;
+  }
+
+  .service-num {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.2);
+    letter-spacing: 1px;
+  }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.55);
+  }
+
+  .service-list {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245,240,232,0.08);
+    list-style: none;
+  }
+
+  .service-list li {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.4);
+    padding: 4px 0;
+    letter-spacing: 0.5px;
+  }
+
+  .service-list li::before {
+    content: '→ ';
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* ─── PROCESS ─── */
+  .process-section {
+    padding: 100px 80px;
+    background: var(--cream);
+  }
+
+  .process-track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 60px;
+    border: 1px solid var(--rule);
+  }
+
+  .process-step {
+    padding: 50px 40px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .process-step:last-child { border-right: none; }
+
+  .process-step::after {
+    content: '→';
+    position: absolute;
+    right: -14px;
+    top: 50px;
+    font-size: 20px;
+    color: var(--gold);
+    z-index: 2;
+  }
+
+  .process-step:last-child::after { display: none; }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  /* ─── TEAM ─── */
+  .team-section {
+    padding: 100px 80px;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .team-card {
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .team-card-header {
+    background: var(--ink);
+    padding: 50px 40px 30px;
+    position: relative;
+  }
+
+  .team-initials {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .team-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--paper);
+    font-weight: 700;
+  }
+
+  .team-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 6px;
+  }
+
+  .team-card-body {
+    padding: 30px 40px 40px;
+    background: var(--cream);
+  }
+
+  .team-bio {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .team-expertise {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid var(--rule);
+    padding: 4px 10px;
+    color: var(--muted);
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+  }
+
+  .contact-info-col {
+    padding: 100px 80px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .contact-form-col {
+    padding: 100px 80px;
+    background: var(--cream);
+  }
+
+  .contact-detail {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+  }
+
+  .contact-detail:last-of-type { border-bottom: none; }
+
+  .contact-detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .contact-detail-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--paper);
+    line-height: 1.4;
+  }
+
+  .contact-detail-value a {
+    color: var(--paper);
+    text-decoration: none;
+  }
+
+  .contact-detail-value a:hover {
+    color: var(--gold);
+  }
+
+  .contact-detail-sub {
+    font-size: 13px;
+    color: rgba(245,240,232,0.4);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .hours-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 20px;
+    margin-top: 10px;
+  }
+
+  .hours-day {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 1px;
+  }
+
+  .hours-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,240,232,0.8);
+  }
+
+  /* ─── FORM ─── */
+  .form-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    line-height: 1.2;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .field-group {
+    margin-bottom: 24px;
+  }
+
+  .field-group label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-bottom: 2px solid var(--ink);
+    padding: 14px 16px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    border-bottom-color: var(--gold);
+    background: #fff;
+  }
+
+  .field-group textarea { resize: vertical; min-height: 120px; }
+
+  .btn-submit {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 18px 50px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    margin-top: 10px;
+  }
+
+  .btn-submit:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .form-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 16px;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 3px double var(--gold);
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    padding: 80px 80px 60px;
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--paper);
+    letter-spacing: -1px;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .footer-brand em { color: var(--gold); font-style: italic; }
+
+  .footer-about {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.45);
+    max-width: 320px;
+  }
+
+  .footer-col-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-links a {
+    font-size: 14px;
+    color: rgba(245,240,232,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--paper); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 80px;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(245,240,232,0.3);
+  }
+
+  .footer-legal-btns {
+    display: flex;
+    gap: 12px;
+  }
+
+  .legal-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(245,240,232,0.2);
+    background: transparent;
+    color: rgba(245,240,232,0.5);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .legal-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(184,146,42,0.08);
+  }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,20,16,0.92);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    padding: 40px;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-box {
+    background: var(--paper);
+    max-width: 760px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-top: 4px solid var(--gold);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--cream);
+  }
+
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+
+  .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 40px 50px 30px;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 1;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .modal-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-top: 8px;
+    display: block;
+  }
+
+  .modal-close {
+    background: none;
+    border: 1px solid var(--rule);
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--ink);
+    flex-shrink: 0;
+    margin-left: 20px;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: var(--cream); }
+
+  .modal-body {
+    padding: 40px 50px 60px;
+  }
+
+  .modal-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 36px 0 14px;
+    color: var(--ink);
+  }
+
+  .modal-body h2:first-child { margin-top: 0; }
+
+  .modal-body p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .modal-body ul {
+    margin: 10px 0 18px 20px;
+  }
+
+  .modal-body li {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  /* ─── ORNAMENT RULE ─── */
+  .ornament {
+    text-align: center;
+    font-size: 20px;
+    color: var(--rule);
+    padding: 20px 0;
+    letter-spacing: 16px;
+  }
+
+  /* ─── SUCCESS MESSAGE ─── */
+  .form-success {
+    display: none;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 24px 30px;
+    margin-top: 20px;
+    border-left: 3px solid var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .masthead-left, .masthead-right { width: 100%; border: none; padding: 60px 40px; }
+    .masthead-top { flex-direction: column; }
+    .about-wrap, .contact-section { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .process-track { grid-template-columns: 1fr 1fr; }
+    .footer-main { grid-template-columns: 1fr 1fr; padding: 60px 40px; }
+    nav { padding: 0 40px; }
+    .services-section, .process-section, .team-section { padding: 80px 40px; }
+    .about-text-col, .about-accent-col { padding: 80px 40px; }
+    .contact-info-col, .contact-form-col { padding: 80px 40px; }
+    .footer-bottom { flex-direction: column; gap: 20px; padding: 30px 40px; }
+    .services-intro { grid-template-columns: 1fr; gap: 30px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .masthead-left { padding: 50px 24px; }
+    .masthead-right { padding: 40px 24px; }
+    .hero-stat-grid { grid-template-columns: 1fr 1fr; }
+    .services-grid, .team-grid, .process-track { grid-template-columns: 1fr; }
+    .footer-main { grid-template-columns: 1fr; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .services-section, .process-section, .team-section, .contact-info-col, .contact-form-col { padding: 60px 24px; }
+    .about-text-col, .about-accent-col { padding: 60px 24px; }
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ MASTHEAD ═══ -->
+<header class="masthead" id="domov">
+  <div class="masthead-top">
+    <div class="masthead-left">
+      <div>
+        <p class="firm-year">Est. 2009 · Bratislava, Slovenská republika</p>
+        <h1 class="firm-name">KELE<em>WOI</em></h1>
+        <p class="firm-tagline">Právo nie je len paragraf. Je to architektúra, ktorá chráni to, čo ste vybudovali.</p>
+      </div>
+      <div>
+        <div class="masthead-badges">
+          <span class="badge">Advokátska kancelária</span>
+          <span class="badge">Člen SAK</span>
+          <span class="badge">ISO 27001</span>
+          <span class="badge">GDPR Compliant</span>
+        </div>
+      </div>
+      <div class="scroll-cue"><span class="scroll-line"></span> Prejdite nadol</div>
+    </div>
+    <div class="masthead-right">
+      <div class="hero-stat-grid">
+        <div class="hero-stat">
+          <span class="hero-stat-num">15+</span>
+          <span class="hero-stat-label">Rokov praxe</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">1 200</span>
+          <span class="hero-stat-label">Vyriešených prípadov</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">98%</span>
+          <span class="hero-stat-label">Spokojnosť klientov</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">3</span>
+          <span class="hero-stat-label">Pobočky v SR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#domov" class="nav-logo">KELEWOI</a>
+  <ul class="nav-links">
+    <li><a href="#o-nas">O nás</a></li>
+    <li><a href="#sluzby">Služby</a></li>
+    <li><a href="#postup">Postup</a></li>
+    <li><a href="#tym">Tím</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ O NÁS ═══ -->
+<section id="o-nas" class="about-wrap">
+  <div class="about-text-col fade-up">
+    <span class="section-label">O kancelárií</span>
+    <h2 class="section-heading">Kancelária s charakterom, nie len s diplomom</h2>
+    <div class="about-body">
+      <p><strong>Advokátska kancelária KELEWOI</strong> vznikla v roku 2009 z presvedčenia, že právne poradenstvo musí byť predovšetkým ľudské. Naši zakladatelia — s bohatými skúsenosťami zo slovenských aj medzinárodných súdov — vytvorili tím, kde každý prípad dostáva plnú pozornosť, a nie len šablónu.</p>
+      <p>V priebehu pätnástich rokov sme vybudovali reputáciu kancelárie, ktorej klienti dôverujú nielen v čase krízy, ale ktorú aktívne vyhľadávajú pre preventívnu právnu starostlivosť. Pôsobíme v Bratislave, Košiciach a Žiline a pokrývame tak potreby klientov naprieč celou Slovenskou republikou.</p>
+      <p>Naša práca sa neobmedzuje na podanie žaloby alebo napísanie zmluvy. Rozumieme obchodným cieľom klientov a stavíame právne riešenia, ktoré tieto ciele <strong>aktívne podporujú</strong>, nie len formálne ošetrujú.</p>
+    </div>
+  </div>
+  <div class="about-accent-col fade-up">
+    <blockquote class="about-quote">
+      „Najlepšia právna ochrana je tá, ktorú klient nikdy nepotrebuje použiť — pretože sme ju vybudovali dostatočne pevnú vopred."
+      <cite>— JUDr. Rastislav Kelewoi, zakladajúci partner</cite>
+    </blockquote>
+    <div class="about-values">
+      <div class="value-item">
+        <span class="value-num">01</span>
+        <div class="value-text">
+          <strong>Dôvernosť na prvom mieste</strong>
+          <span>Každá informácia zdieľaná s naším tímom je chránená nielen zákonom, ale aj naším profesionálnym záväzkom absolútnej mlčanlivosti.</span>
+        </div>
+      </div>
+      <div class="value-item">
+        <span class="value-num">02</span>
+        <div class="value-text">
+          <strong>Jasná komunikácia</strong>
+          <span>Právnická terminológia existuje pre nás, nie pre klientov. Každé stanovisko vysvetľujeme v jazyku, ktorý je zrozumiteľný a použiteľný.</span>
+        </div>
+      </div>
+      <div class="value-item">
+        <span class="value-num">03</span>
+        <div class="value-text">
+          <strong>Merateľné výsledky</strong>
+          <span>Každý prípad hodnotíme voči konkrétnym cieľom, nie abstraktným právnym pojmom. Úspech je pre nás výsledok pre klienta.</span>
+        </div>
+      </div>
+      <div class="value-item">
+        <span class="value-num">04</span>
+        <div class="value-text">
+          <strong>Nepretržitá dostupnosť</strong>
+          <span>V kľúčových momentoch nie ste sami. Naša pohotovostná linka funguje 7 dní v týždni pre existujúcich klientov.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="sluzby" class="services-section">
+  <div class="services-intro fade-up">
+    <h2 class="services-heading">Oblasti<br>pôsobenia<br><em>&amp; odbornosti</em></h2>
+    <p class="services-desc">Pokrývame kompletné spektrum právnych potrieb — od každodenných zmluvných agend až po komplexné cezhraničné transakcie a spory. Každá oblasť má u nás dedikovaného špecialistu s hlbokou odvetvovou znalosťou.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <span class="service-num">01</span>
+      <span class="service-icon">⚖</span>
+      <h3 class="service-title">Obchodné právo</h3>
+      <p class="service-desc">Zakladanie a reštrukturalizácia spoločností, korporátne riadenie, fúzie a akvizície, due diligence. Sprevádzame klientov od prvého podnikateľského kroku až po medzinárodné expanzie.</p>
+      <ul class="service-list">
+        <li>Zakladanie s.r.o., a.s., k.s.</li>
+        <li>M&A transakcie</li>
+        <li>Akcionárske zmluvy</li>
+        <li>Korporátne due diligence</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">02</span>
+      <span class="service-icon">📋</span>
+      <h3 class="service-title">Zmluvné právo</h3>
+      <p class="service-desc">Príprava, revízia a vyjednávanie všetkých typov zmlúv. Identifikujeme skryté riziká v dokumentoch predtým, ako sa stanú problémom — nie po tom.</p>
+      <ul class="service-list">
+        <li>Obchodné zmluvy</li>
+        <li>NDA a licenčné dohody</li>
+        <li>Franchisové zmluvy</li>
+        <li>Medzinárodné kontrakty</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">03</span>
+      <span class="service-icon">🏛</span>
+      <h3 class="service-title">Civilné spory</h3>
+      <p class="service-desc">Zastupovanie pred všetkými súdmi Slovenskej republiky. Pripravujeme každý spor dôkladne, analyzujeme silné a slabé stránky pred prvým pojednávaním.</p>
+      <ul class="service-list">
+        <li>Vymáhanie pohľadávok</li>
+        <li>Náhrada škody</li>
+        <li>Obchodné spory</li>
+        <li>Odvolania a dovolania</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">04</span>
+      <span class="service-icon">🏠</span>
+      <h3 class="service-title">Nehnuteľnosti &amp; Reality</h3>
+      <p class="service-desc">Kompletná právna agenda pri kúpe, predaji a prenájme nehnuteľností. Kataster, záložné práva, developerské projekty a bytové domy.</p>
+      <ul class="service-list">
+        <li>Kúpno-predajné zmluvy</li>
+        <li>Katasterné konania</li>
+        <li>Záložné práva</li>
+        <li>Developerské projekty</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">05</span>
+      <span class="service-icon">👤</span>
+      <h3 class="service-title">Pracovné právo</h3>
+      <p class="service-desc">Pre zamestnávateľov aj zamestnancov. Pracovné zmluvy, kolektívne vyjednávanie, prepúšťanie, mobbing a diskriminácia na pracovisku.</p>
+      <ul class="service-list">
+        <li>Pracovné zmluvy a dodatky</li>
+        <li>Výpovede a ukončenia PP</li>
+        <li>Manažérske zmluvy</li>
+        <li>Kolektívne vyjednávanie</li>
+      </ul>
+    </div>
+    <div class="service-card fade-up">
+      <span class="service-num">06</span>
+      <span class="service-icon">🔐</span>
+      <h3 class="service-title">GDPR &amp; Ochrana dát</h3>
+      <p class="service-desc">Auditujeme, nastavujeme a udržiavame súlad s GDPR pre spoločnosti všetkých veľkostí. Interna dokumentácia, školenia, zastupovanie pred ÚOOÚ.</p>
+      <ul class="service-list">
+        <li>GDPR audity</li>
+        <li>Dokumentácia spracúvania</li>
+        <li>DPO ako služba</li>
+        <li>Incidenty a notifikácie</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="postup" class="process-section">
+  <div class="fade-up">
+    <span class="section-label">Ako pracujeme</span>
+    <h2 class="section-heading">Náš postup pri riešení veci</h2>
+  </div>
+
+  <div class="process-track">
+    <div class="process-step fade-up">
+      <span class="step-num">I.</span>
+      <h3 class="step-title">Prvá konzultácia</h3>
+      <p class="step-desc">Bezplatné úvodné stretnutie alebo hovor (do 30 minút), kde si vypočujeme vašu situáciu, posúdime komplexnosť a navrheme optimálny prístup. Žiadne záväzky, žiadne skryté náklady.</p>
+    </div>
+    <div class="process-step fade-up">
+      <span class="step-num">II.</span>
+      <h3 class="step-title">Analýza &amp; Stratégia</h3>
+      <p class="step-desc">Náš špecialista podrobne preskúma prípad, zhromažďuje dokumenty a vypracuje stratégiu s variantami riešenia — vrátane transparentného odhadu nákladov a časového harmonogramu.</p>
+    </div>
+    <div class="process-step fade-up">
+      <span class="step-num">III.</span>
+      <h3 class="step-title">Realizácia</h3>
+      <p class="step-desc">Aktívne konanie: príprava podaní, zastupovanie, rokovanie s protistranou. Klienta informujeme pri každom dôležitom kroku — nevytvárame informačné medzery.</p>
+    </div>
+    <div class="process-step fade-up">
+      <span class="step-num">IV.</span>
+      <h3 class="step-title">Výsledok &amp; Prevencia</h3>
+      <p class="step-desc">Uzavretie veci a odovzdanie záverečného stanoviska. Zároveň navrhneme preventívne opatrenia, aby sa podobná situácia neopakovala. Záleží nám na dlhodobom vzťahu, nie jednorazovej transakcii.</p>
+    </div>
+  </div>
+
+  <div class="ornament" style="margin-top:60px;">✦ &nbsp; ✦ &nbsp; ✦</div>
+</section>
+
+<!-- ═══ TÍM ═══ -->
+<section id="tym" class="team-section">
+  <div class="fade-up">
+    <span class="section-label">Náš tím</span>
+    <h2 class="section-heading">Ľudia za každým prípadom</h2>
+  </div>
+
+  <div class="team-grid">
+    <div class="team-card fade-up">
+      <div class="team-card-header">
+        <span class="team-initials">R.K.</span>
+        <div class="team-name">JUDr. Rastislav Kelewoi</div>
+        <div class="team-title">Zakladajúci partner</div>
+      </div>
+      <div class="team-card-body">
+        <p class="team-bio">Absolvent Právnickej fakulty UK v Bratislave a postgraduálnych štúdií v Mníchove. Pätnásť rokov sa špecializuje na fúzie a akvizície, medzinárodné obchodné právo a riešenie cezhraničných sporov. Vo svojej kariére viedol transakcie v celkovej hodnote presahujúcej 200 miliónov eur.</p>
+        <div class="team-expertise">
+          <span class="tag">M&A</span>
+          <span class="tag">Obchodné právo</span>
+          <span class="tag">Medzinárodné právo</span>
+        </div>
+      </div>
+    </div>
+    <div class="team-card fade-up">
+      <div class="team-card-header">
+        <span class="team-initials">M.V.</span>
+        <div class="team-name">Mgr. Monika Vargová</div>
+        <div class="team-title">Seniorná advokátka</div>
+      </div>
+      <div class="team-card-body">
+        <p class="team-bio">Špecializuje sa na pracovné právo a ochranu osobných údajov. Pred vstupom do KELEWOI pôsobila ako interná právnička v bankovom sektore, čo jej dáva unikátne pochopenie korporátnych procesov a compliance. Je certifikovanou DPO podľa normy ISO 17024.</p>
+        <div class="team-expertise">
+          <span class="tag">Pracovné právo</span>
+          <span class="tag">GDPR</span>
+          <span class="tag">Compliance</span>
+        </div>
+      </div>
+    </div>
+    <div class="team-card fade-up">
+      <div class="team-card-header">
+        <span class="team-initials">T.Š.</span>
+        <div class="team-name">JUDr. Tomáš Ševčík</div>
+        <div class="team-title">Partner – Spory</div>
+      </div>
+      <div class="team-card-body">
+        <p class="team-bio">Jeden z najskúsenejších litigátorov tímu s viac ako tisíckou prípadov pred okresnými, krajskými aj najvyšším súdom. Vynikajúci rečník a stratég, ktorý dokáže nájsť argumentačnú medzeru v zdanlivo nepriestrelných pozíciách protistrany.</p>
+        <div class="team-expertise">
+          <span class="tag">Súdne spory</span>
+          <span class="tag">Arbitráž</span>
+          <span class="tag">Nehnuteľnosti</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ KONTAKT ═══ -->
+<section id="kontakt" class="contact-section">
+  <div class="contact-info-col fade-up">
+    <span class="section-label" style="--gold: #b8922a; color: var(--gold);">Spojte sa s nami</span>
+    <h2 class="section-heading" style="color:var(--paper); margin-bottom:50px;">Napíšte nám.<br>Zavolajte.<br>Príďte.</h2>
+
+    <div class="contact-detail">
+      <span class="contact-detail-label">Hlavná kancelária</span>
+      <span class="contact-detail-value">Zámocká 14, 2. poschodie<br>811 01 Bratislava – Staré Mesto</span>
+      <span class="contact-detail-sub">Parkovanie k dispozícii v Garage Zámocká</span>
+    </div>
+    <div class="contact-detail">
+      <span class="contact-detail-label">Telefón</span>
+      <span class="contact-detail-value"><a href="tel:+421255668291">+421 2 5566 8291</a></span>
+      <span class="contact-detail-sub">Pohotovostná linka klientov: +421 905 314 782</span>
+    </div>
+    <div class="contact-detail">
+      <span class="contact-detail-label">E-mail</span>
+      <span class="contact-detail-value"><a href="mailto:info@kelewoi.sk">info@kelewoi.sk</a></span>
+      <span class="contact-detail-sub">Odpoveď do 4 hodín v pracovný deň</span>
+    </div>
+    <div class="contact-detail">
+      <span class="contact-detail-label">Úradné hodiny</span>
+      <div class="hours-grid">
+        <span class="hours-day">Po – Št</span><span class="hours-time">8:30 – 18:00</span>
+        <span class="hours-day">Piatok</span><span class="hours-time">8:30 – 15:00</span>
+        <span class="hours-day">Sobota</span><span class="hours-time">10:00 – 13:00 (len po dohode)</span>
+        <span class="hours-day">Nedeľa</span><span class="hours-time">Zatvorené</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form-col fade-up">
+    <h2 class="form-heading">Prvá konzultácia<br><em style="font-family:'Playfair Display',serif; font-style:italic; color:var(--gold);">zdarma</em></h2>
+    <form id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="field-group">
+          <label for="fname">Meno</label>
+          <input type="text" id="fname" name="fname" placeholder="Ján" required>
+        </div>
+        <div class="field-group">
+          <label for="lname">Priezvisko</label>
+          <input type="text" id="lname" name="lname" placeholder="Novák" required>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="email">E-mailová adresa</label>
+        <input type="email" id="email" name="email" placeholder="jan.novak@firma.sk" required>
+      </div>
+      <div class="field-group">
+        <label for="phone">Telefónne číslo</label>
+        <input type="tel" id="phone" name="phone" placeholder="+421 9XX XXX XXX">
+      </div>
+      <div class="field-group">
+        <label for="area">Oblasť</label>
+        <select id="area" name="area" required>
+          <option value="" disabled selected>Vyberte oblasť práva</option>
+          <option>Obchodné právo</option>
+          <option>Zmluvné právo</option>
+          <option>Civilné spory</option>
+          <option>Nehnuteľnosti</option>
+          <option>Pracovné právo</option>
+          <option>GDPR a ochrana dát</option>
+          <option>Iné</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label for="msg">Stručný popis situácie</label>
+        <textarea id="msg" name="msg" placeholder="Popíšte nám stručne, čo riešite. Všetky informácie sú dôverné." required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Odoslať dopyt →</button>
+      <p class="form-note">Odoslaním formulára súhlasíte so spracúvaním osobných údajov na účely odpovede na váš dopyt. Dáta sa nepostupujú tretím stranám.</p>
+    </form>
+    <div class="form-success" id="formSuccess">
+      ✓ &nbsp; Váš dopyt sme úspešne prijali. Ozveme sa vám najneskôr do 4 pracovných hodín na uvedený e-mail. Ďakujeme za prejavenú dôveru.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-main">
+    <div>
+      <span class="footer-brand">KELE<em>WOI</em></span>
+      <p class="footer-about">Advokátska kancelária KELEWOI s.r.o. je zapísaná v Slovenská advokátska komora pod č. 4492. IČO: 47 884 215. DIČ: 2024109863. Sídlo: Zámocká 14, 811 01 Bratislava.</p>
+    </div>
+    <div>
+      <span class="footer-col-title">Rýchle odkazy</span>
+      <ul class="footer-links">
+        <li><a href="#o-nas">O kancelárií</a></li>
+        <li><a href="#sluzby">Právne služby</a></li>
+        <li><a href="#postup">Postup spolupráce</a></li>
+        <li><a href="#tym">Náš tím</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer-col-title">Pobočky</span>
+      <ul class="footer-links">
+        <li><a href="#">Bratislava – Zámocká 14</a></li>
+        <li><a href="#">Košice – Mlynská 22</a></li>
+        <li><a href="#">Žilina – Štefánikova 8</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2009–2025 KELEWOI s.r.o. Všetky práva vyhradené. Obsah tejto stránky slúži len na informačné účely a nepredstavuje právne poradenstvo.</span>
+    <div class="footer-legal-btns">
+      <button class="legal-btn" onclick="openModal('terms')">Podmienky používania</button>
+      <button class="legal-btn" onclick="openModal('privacy')">Politika ochrany súkromia</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ MODAL: PODMIENKY ═══ -->
+<div class="modal-overlay" id="modal-terms">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">Podmienky používania<br>webovej stránky</h2>
+        <span class="modal-date">Platné od: 1. januára 2024 · Verzia 3.2</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('terms')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h2>1. Prevádzkovateľ a rozsah podmienok</h2>
+      <p>Tieto podmienky používania (ďalej len „Podmienky") upravujú pravidlá prístupu a využívania webovej stránky www.kelewoi.sk (ďalej len „Stránka"), ktorú prevádzkuje spoločnosť KELEWOI s.r.o., so sídlom Zámocká 14, 811 01 Bratislava, IČO: 47 884 215, zapísaná v Obchodnom registri Okresného súdu Bratislava I, oddiel Sro, vložka č. 98 241/B (ďalej len „Kancelária").</p>
+      <p>Pristupovaním na Stránku a jej používaním vyjadrujete súhlas s týmito Podmienkami v plnom rozsahu. Ak s niektorou časťou Podmienok nesúhlasíte, prosíme vás, aby ste Stránku nepoužívali.</p>
+
+      <h2>2. Charakter obsahu – nie je právne poradenstvo</h2>
+      <p>Obsah zverejnený na Stránke, vrátane článkov, informácií o službách, procesných popisov a kontaktných formulárov, má <strong>výhradne informačný charakter</strong>. Nepredstavuje právne poradenstvo, právnu radu, stanovisko ani akúkoľvek formu právneho zastúpenia v zmysle zákona č. 586/2003 Z. z. o advokácii.</p>
+      <p>Právne poradenstvo je poskytované výhradne na základe uzatvorenej písomnej zmluvy o poskytovaní právnych služieb. Kancelária nezodpovedá za škody vzniknuté konaním alebo nečinnosťou na základe informácií dostupných na Stránke bez uzatvoreného zmluvného vzťahu.</p>
+
+      <h2>3. Duševné vlastníctvo</h2>
+      <p>Všetky prvky Stránky — grafická úprava, texty, logotypy, štruktúra a usporiadanie obsahu — sú predmetom autorských práv Kancelárie alebo príslušných držiteľov licencií. Akékoľvek kopírovanie, reprodukcia, šírenie alebo iné využitie obsahu bez predchádzajúceho písomného súhlasu Kancelárie je zakázané.</p>
+      <p>Ste oprávnení obsah Stránky prezerať a tlačiť výhradne pre osobné, nekomerčné účely, pričom všetky upozornenia o autorských právach musia zostať nedotknuté.</p>
+
+      <h2>4. Externé prepojenia</h2>
+      <p>Stránka môže obsahovať prepojenia na webové stránky tretích strán. Tieto prepojenia slúžia výhradne pre pohodlie návštevníkov. Kancelária nemá kontrolu nad obsahom externých stránok a nezodpovedá za ich obsah, dostupnosť ani presnosť informácií na nich zverejnených.</p>
+
+      <h2>5. Obmedzenie zodpovednosti</h2>
+      <p>Kancelária vynakladá primerané úsilie na zabezpečenie aktuálnosti a správnosti informácií na Stránke, no nezaručuje ich úplnosť, presnosť ani vhodnosť na konkrétny účel. Kancelária nie je zodpovedná za:</p>
+      <ul>
+        <li>akékoľvek priame alebo nepriame škody vyplývajúce z použitia alebo nemožnosti použitia Stránky,</li>
+        <li>dočasnú nedostupnosť Stránky z dôvodov technickej povahy,</li>
+        <li>obsahové chyby alebo zastaranosť informácií, pokiaľ ide o zmeny legislatívy,</li>
+        <li>škody spôsobené škodlivým softvérom pochádzajúcim z externých zdrojov.</li>
+      </ul>
+
+      <h2>6. Kontaktný formulár a komunikácia</h2>
+      <p>Odoslanie dopytu prostredníctvom kontaktného formulára na Stránke <strong>nezakladá vznik zmluvného vzťahu</strong> medzi odosielateľom a Kanceláriou. Predstavuje iba prejavenie záujmu o kontakt. Zmluvný vzťah vzniká výhradne podpísaním písomnej zmluvy o poskytovaní právnych služieb.</p>
+      <p>Kancelária sa zaväzuje reagovať na dopyty zaslané prostredníctvom formulára v pracovné dni do 4 hodín od prijatia, ak Stránka neuvádza inak.</p>
+
+      <h2>7. Zmeny Podmienok</h2>
+      <p>Kancelária si vyhradzuje právo tieto Podmienky kedykoľvek zmeniť. Aktuálna verzia Podmienok je vždy dostupná na Stránke s uvedením dátumu poslednej aktualizácie. Ďalšie používanie Stránky po uverejnení zmien sa považuje za súhlas s aktualizovanými Podmienkami.</p>
+
+      <h2>8. Rozhodné právo</h2>
+      <p>Tieto Podmienky sa riadia právnym poriadkom Slovenskej republiky. Akékoľvek spory vzniknuté v súvislosti s používaním Stránky budú riešené príslušnými súdmi Slovenskej republiky.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: GDPR ═══ -->
+<div class="modal-overlay" id="modal-privacy">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">Politika ochrany súkromia<br>a spracúvania osobných údajov</h2>
+        <span class="modal-date">Platné od: 1. januára 2024 · GDPR Rev. 2.5</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('privacy')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h2>1. Prevádzkovateľ osobných údajov</h2>
+      <p>Prevádzkovateľom osobných údajov v zmysle nariadenia Európskeho parlamentu a Rady (EÚ) 2016/679 o ochrane fyzických osôb pri spracúvaní osobných údajov (ďalej len „GDPR") a zákona č. 18/2018 Z. z. o ochrane osobných údajov je:</p>
+      <p><strong>KELEWOI s.r.o.</strong><br>Zámocká 14, 811 01 Bratislava<br>IČO: 47 884 215 | DIČ: 2024109863<br>E-mail DPO: gdpr@kelewoi.sk | Tel.: +421 2 5566 8291</p>
+
+      <h2>2. Kategórie spracúvaných údajov a účely spracúvania</h2>
+      <p>Kancelária spracúva osobné údaje v nasledujúcich prípadoch a na nasledujúce účely:</p>
+      <ul>
+        <li><strong>Kontaktný formulár:</strong> meno, priezvisko, e-mail, telefón, obsah správy — na účely zodpovedania dopytu (právny základ: čl. 6 ods. 1 písm. b) GDPR — predzmluvné vzťahy).</li>
+        <li><strong>Zmluvní klienti:</strong> identifikačné, kontaktné a fakturačné údaje — na plnenie zmluvy o poskytovaní právnych služieb (čl. 6 ods. 1 písm. b) GDPR).</li>
+        <li><strong>Zákonné povinnosti:</strong> údaje nevyhnutné na splnenie povinností podľa advokátskej legislatívy, AML a daňových predpisov (čl. 6 ods. 1 písm. c) GDPR).</li>
+        <li><strong>Analytika stránky:</strong> anonymizované štatistiky návštevnosti (čl. 6 ods. 1 písm. f) GDPR — oprávnený záujem).</li>
+      </ul>
+
+      <h2>3. Príjemcovia osobných údajov</h2>
+      <p>Osobné údaje nie sú predávané, prenajímané ani obchodne zdieľané s tretími stranami. Môžu byť sprístupnené výhradne:</p>
+      <ul>
+        <li>súdom, orgánom verejnej moci a iným inštitúciám pri zákonnej povinnosti,</li>
+        <li>subdodávateľom spracúvania (hosting, IT podpora) na základe spracovateľských zmlúv spĺňajúcich požiadavky GDPR.</li>
+      </ul>
+      <p>Kancelária neprenáša osobné údaje do tretích krajín mimo EHP bez adekvátnych záruk v zmysle kap. V GDPR.</p>
+
+      <h2>4. Doba uchovávania</h2>
+      <p>Dáta z kontaktných formulárov bez vzniku zmluvného vzťahu sú vymazané do 6 mesiacov. Dáta klientov sú uchovávané po dobu trvania zmluvného vzťahu a ďalej po zákonom stanovenú archiváciu (spravidla 10 rokov od ukončenia mandátu). Analytické dáta sú anonymizované a uchovávané na dobu neurčitú.</p>
+
+      <h2>5. Práva dotknutej osoby</h2>
+      <p>V súvislosti so spracúvaním osobných údajov máte nasledujúce práva:</p>
+      <ul>
+        <li><strong>Právo na prístup</strong> — získať kópiu údajov, ktoré o vás spracúvame (čl. 15 GDPR).</li>
+        <li><strong>Právo na opravu</strong> — požiadať o opravu nesprávnych alebo doplnenie neúplných údajov (čl. 16 GDPR).</li>
+        <li><strong>Právo na vymazanie</strong> — požiadať o vymazanie údajov za podmienok čl. 17 GDPR.</li>
+        <li><strong>Právo na obmedzenie spracúvania</strong> — za podmienok čl. 18 GDPR.</li>
+        <li><strong>Právo na prenosnosť</strong> — získať údaje v štruktúrovanom, strojovo čitateľnom formáte (čl. 20 GDPR).</li>
+        <li><strong>Právo namietať</strong> — proti spracúvaniu na základe oprávneného záujmu (čl. 21 GDPR).</li>
+        <li><strong>Právo podať sťažnosť</strong> — na Úrad na ochranu osobných údajov SR, Hraničná 12, 820 07 Bratislava, www.uoou.sk.</li>
+      </ul>
+      <p>Žiadosti súvisiace s výkonom práv zasielajte na adresu gdpr@kelewoi.sk. Na žiadosť odpovieme do 30 dní od prijatia.</p>
+
+      <h2>6. Súbory cookies</h2>
+      <p>Stránka využíva výhradne technické (nevyhnutné) cookies potrebné na správne fungovanie. Analytické cookies sú aktivované výhradne po udelení súhlasu. Súhlas môžete kedykoľvek odvolať vymazaním cookies vo vašom prehliadači alebo prostredníctvom nastavení v patičke Stránky.</p>
+
+      <h2>7. Bezpečnosť</h2>
+      <p>Kancelária implementuje primerané technické a organizačné opatrenia na ochranu osobných údajov pred neoprávneným prístupom, stratou alebo zneužitím. Systémy sú certifikované podľa ISO 27001. V prípade bezpečnostného incidentu s vplyvom na práva dotknutých osôb sú tieto osoby informované v súlade s čl. 34 GDPR.</p>
+
+      <h2>8. Aktualizácie politiky</h2>
+      <p>Táto politika môže byť aktualizovaná v súlade so zmenami legislatívy alebo postupov Kancelárie. Aktuálna verzia je vždy dostupná na tejto stránke s dátumom poslednej revízie. O podstatných zmenách sú registrovaní klienti informovaní e-mailom.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── MODAL ───
+  function openModal(type) {
+    document.getElementById('modal-' + type).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(type) {
+    document.getElementById('modal-' + type).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+  // ─── FORM ───
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = 'Odosielam...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }, 1200);
+  }
+
+  // ─── SCROLL ANIMATIONS ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ─── NAV ACTIVE ───
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id], header[id]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 80;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current
+        ? 'var(--gold)'
+        : '';
+    });
+  });
+</script>
+</body>
+</html>
